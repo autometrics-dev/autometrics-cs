@@ -1,0 +1,15 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <LangVersion>10.0</LangVersion>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+  
+  <ItemGroup>
+    <PackageReference Include="AspectInjector" Version="2.8.1" />
+    <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="7.0.2" />
+  </ItemGroup>
+  
+</Project>
