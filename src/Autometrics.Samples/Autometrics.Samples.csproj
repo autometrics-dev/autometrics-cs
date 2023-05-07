@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Folder Include="InstrumentedExamples\" />
+    <ProjectReference Include="..\Autometrics.Instrumentation\Autometrics.Instrumentation.csproj" />
   </ItemGroup>
 
 </Project>

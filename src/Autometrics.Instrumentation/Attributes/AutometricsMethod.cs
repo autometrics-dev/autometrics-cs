@@ -11,9 +11,9 @@ namespace Autometrics.Instrumentation.Attributes
     /// <see href="https://github.com/autometrics-dev">Autometrics on GitHub</see>
     /// </summary>
     [Aspect(Scope.Global)]
-    [Injection(typeof(Autometrics))]
+    [Injection(typeof(AutometricsMethod))]
     [AttributeUsage(AttributeTargets.Method)]
-    public class Autometrics : Attribute
+    public class AutometricsMethod : Attribute
     {
 
         // Aspect Injection renames methods, if we get a renamed one it will look like this: __a$_around_SaferMethod_100663303_o

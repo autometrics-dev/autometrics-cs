@@ -1,4 +1,6 @@
-﻿namespace MetricsSample
+﻿using Autometrics.Samples.LoadTesting;
+
+namespace MetricsSample
 {
     internal class Program
     {
@@ -7,8 +9,10 @@
             Console.WriteLine("Please select an option:");
             Console.WriteLine("1. Generate Activity Metrics to Console");
             Console.WriteLine("2. Generate Activity Metrics to Prometheus");
-            Console.WriteLine("3. Generate Activity Extended Metrics to Prometheus");
-            Console.WriteLine("4. Exit");
+            Console.WriteLine("3. Generate Activity Metrics to be Scraped");
+            Console.WriteLine("4. Test AutometricsMethod Overhead (Simple)");
+            Console.WriteLine("5. Test AutometricsMethod Overhead (Recursive / Complex)");
+            Console.WriteLine("6. Exit");
             Console.Write("Enter the option number: ");
 
             if (int.TryParse(Console.ReadLine(), out int option))
@@ -24,18 +28,36 @@
                         break;
 
                     case 3:
-                        Console.Write("Enter the number of minutes for metric generation: ");
-                        if (int.TryParse(Console.ReadLine(), out int minutes))
+                        ScrapableMetrics.GenerateActivity();
+                        break;
+
+                    case 4:
+                        Console.Write("Enter the number of iterations to test for overhead: ");
+                        if (int.TryParse(Console.ReadLine(), out int simpleIterations))
                         {
-                            ExtendedPrometheusMetrics.GenerateActivity(minutes);
+                            OverheadTesting.PerformSimpleTest(simpleIterations);
                         }
                         else
                         {
                             Console.WriteLine("Invalid input. Please enter a valid number.");
                         }
                         break;
-
-                    case 4:
+                    case 5:
+                        Console.Write("Enter the number of iterations to test for overhead: ");
+                        if (int.TryParse(Console.ReadLine(), out int complexIterations))
+                        {
+                            Console.Write("Enter the depth of the recursion to test for overhead: ");
+                            if (int.TryParse(Console.ReadLine(), out int recursionDepth))
+                            {
+                                OverheadTesting.PerformRecursiveTest(complexIterations, recursionDepth);
+                            }
+                        }
+                        else
+                        {
+                            Console.WriteLine("Invalid input. Please enter a valid number.");
+                        }
+                        break;
+                    case 6:
                         Console.WriteLine("Exiting...");
                         return;
 
@@ -49,6 +71,7 @@
                 Console.WriteLine("Invalid input. Please enter a valid option number.");
             }
 
+            Console.WriteLine("\n\n\n");
             Console.WriteLine("Completed generating metrics.");
             Console.ReadLine();
         }
