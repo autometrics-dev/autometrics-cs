@@ -1,6 +1,6 @@
 # Autometrics.Samples Application Documentation
 
-The `Autometrics.Samples` application is a comprehensive testing suite for evaluating the performance and overhead of the `AutometricsMethod` attribute. The application covers various test scenarios, including simple and recursive methods, with and without the attribute.
+The `Autometrics.Samples` application is a testing suite for evaluating the performance, output, and overhead of the `AutometricsMethod` attribute. The application covers various test scenarios, including simple and recursive methods, with and without the attribute.
 
 ## Table of Contents
 
