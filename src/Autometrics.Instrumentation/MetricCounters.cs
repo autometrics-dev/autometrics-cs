@@ -34,11 +34,6 @@ namespace Autometrics.Instrumentation
         private static readonly KeyValuePair<string, object?>[]? buildTags;
 
         /// <summary>
-        /// The name of the assembly we are instrumenting, to be used as a tag
-        /// </summary>
-        private static readonly string? assemblyName;
-
-        /// <summary>
         /// Generates a dummy gague measurement with tags of the current build information
         /// </summary>
         /// <returns></returns>
@@ -52,15 +47,13 @@ namespace Autometrics.Instrumentation
         /// </summary>
         static MetricCounters()
         {
-            Assembly assembly = Assembly.GetExecutingAssembly();
+            Assembly assembly = Assembly.GetEntryAssembly();
             if (assembly != null)
             {
-                assemblyName = assembly.GetName()?.Name;
                 buildTags = SetBuildTags(assembly);
             }
             else
             {
-                assemblyName = null;
                 buildTags = null;
             }
         }
@@ -72,12 +65,12 @@ namespace Autometrics.Instrumentation
         /// <param name="functionName">The name of the function tracked</param>
         /// <param name="success">A string value of "ok" or "error" based on the outcome</param>
         /// <param name="caller">optional caller data</param>
-        internal static void RecordFunctionCall(long duration, string functionName, bool success, string? caller)
+        internal static void RecordFunctionCall(long duration, string functionName, bool success, string declaringType, string? caller)
         {
             List<KeyValuePair<string, object?>> callTags = new List<KeyValuePair<string, object?>>
             {
                 new KeyValuePair<string, object?>("function", functionName),
-                new KeyValuePair<string, object?>("module", assemblyName),
+                new KeyValuePair<string, object?>("module", declaringType),
                 new KeyValuePair<string, object?>("result", success ? "ok" : "error")
             };
 
@@ -108,11 +101,12 @@ namespace Autometrics.Instrumentation
                 {
                     buildTags.Add("version", $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}");
 
-                    // Only add the InformationalVersion if it is different from the first three parts of the version
-                    if (assemblyInformationalVersionAttribute?.InformationalVersion != $"{version.Major}.{version.Minor}.{version.Build}")
-                    {
-                        buildTags.Add("commit", assemblyInformationalVersionAttribute?.InformationalVersion);
-                    }
+                    // TODO: Figure out the best way to get the commit information
+                    //// Only add the InformationalVersion if it is different from the first three parts of the version
+                    //if (assemblyInformationalVersionAttribute?.InformationalVersion != $"{version.Major}.{version.Minor}.{version.Build}")
+                    //{
+                    //    buildTags.Add("commit", assemblyInformationalVersionAttribute?.InformationalVersion);
+                    //}
                 }
             }
 

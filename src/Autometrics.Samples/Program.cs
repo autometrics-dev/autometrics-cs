@@ -8,8 +8,8 @@ namespace MetricsSample
         {
             Console.WriteLine("Please select an option:");
             Console.WriteLine("1. Generate Activity Metrics to Console");
-            Console.WriteLine("2. Generate Activity Metrics to Prometheus");
-            Console.WriteLine("3. Generate Activity Metrics to be Scraped");
+            Console.WriteLine("2. Generate Activity Metrics for the Otel Collector");
+            Console.WriteLine("3. Generate Activity Metrics to be Scraped by Prometheus");
             Console.WriteLine("4. Test AutometricsMethod Overhead (Simple)");
             Console.WriteLine("5. Test AutometricsMethod Overhead (Recursive / Complex)");
             Console.WriteLine("6. Exit");
@@ -24,7 +24,7 @@ namespace MetricsSample
                         break;
 
                     case 2:
-                        PrometheusMetrics.GenerateActivity();
+                        OtelCollector.GenerateActivity();
                         break;
 
                     case 3:

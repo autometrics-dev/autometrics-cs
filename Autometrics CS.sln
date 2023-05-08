@@ -7,6 +7,12 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autometrics.Instrumentation
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autometrics.Samples", "src\Autometrics.Samples\Autometrics.Samples.csproj", "{5B273D22-039A-4D0E-B6AF-61C53114272C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D19D9766-72A0-4664-B7C1-966E156345F4}"
+	ProjectSection(SolutionItems) = preProject
+		README.md = README.md
+		Testing Notes.md = Testing Notes.md
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU

@@ -56,7 +56,7 @@ namespace Autometrics.Instrumentation.Attributes
             {
                 stopwatch.Stop();
                 string callingMethodName = GetCallingMethodName(metadata);
-                MetricCounters.RecordFunctionCall(stopwatch.ElapsedMilliseconds, methodName, success, callingMethodName);
+                MetricCounters.RecordFunctionCall(stopwatch.ElapsedMilliseconds, methodName, success, metadata.DeclaringType.FullName, callingMethodName);
             }
 
         }

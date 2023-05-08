@@ -27,7 +27,7 @@ namespace Autometrics.Samples.InstrumentedExamples
                 }
 
                 int countdown = 10;
-                Console.WriteLine($"Generation complete. Press any key to return to the main menu or wait for the {countdown} seconds countdown to restart.");
+                Console.WriteLine($"Generation complete. Press any key to exit or wait for the {countdown} seconds countdown to restart.");
 
                 while (countdown > 0)
                 {
@@ -42,7 +42,7 @@ namespace Autometrics.Samples.InstrumentedExamples
 
                     // Update the countdown message
                     Console.SetCursorPosition(0, Console.CursorTop - 1);
-                    Console.WriteLine($"Generation complete. Press any key to exit or wait for the {countdown} seconds countdown to restart.     ");
+                    Console.WriteLine($"Generation complete. Press any key to exit or wait for the {countdown} seconds countdown to restart.      ");
                 }
             }
         }
