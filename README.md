@@ -59,3 +59,18 @@ namespace MyProject
     }
 }
 ```
+
+## Running the Sample Application and looking at the Grafana Dashboards
+
+Running the application generates a steady flow of activity with the ocassional error
+![image](https://user-images.githubusercontent.com/17866458/236915271-244170f4-1345-4817-8b5c-84e70d715339.png)
+
+The pre-build Grafana Dashboards display the activity the same as all over Autometrics projects 
+![image](https://user-images.githubusercontent.com/17866458/236915571-f20dfb9e-7639-4406-80f3-34ca1315d25c.png)
+![image](https://user-images.githubusercontent.com/17866458/236916166-2a387d96-de70-405e-bdb6-f54faa98545d.png)
+
+
+
+
+
+
