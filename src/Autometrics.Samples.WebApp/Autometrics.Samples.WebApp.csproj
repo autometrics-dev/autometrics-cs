@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <PropertyGroup>
+    <TargetFramework>net6.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="OpenTelemetry.Exporter.OpenTelemetryProtocol" Version="1.4.0" />
+    <PackageReference Include="OpenTelemetry.Extensions.Hosting" Version="1.4.0" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\Autometrics.Instrumentation\Autometrics.Instrumentation.csproj" />
+    <ProjectReference Include="..\Autometrics.Samples.Library\Autometrics.Samples.Library.csproj" />
+  </ItemGroup>
+
+</Project>

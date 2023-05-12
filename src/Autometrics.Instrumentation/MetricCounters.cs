@@ -26,7 +26,7 @@ namespace Autometrics.Instrumentation
         /// <summary>
         /// The non-changing gauge used to track the build information
         /// </summary>
-        private static readonly ObservableGauge<int> buildInformation = autometricsMeter.CreateObservableGauge<int>("build_info", observeBuildInfo, null, "A never changing gauge to allow tracking of build and commit information");
+        private static readonly ObservableGauge<int> buildInformation = autometricsMeter.CreateObservableGauge("build_info", observeBuildInfo, null, "A never changing gauge to allow tracking of build and commit information");
 
         /// <summary>
         /// Tags attached to the readings of our gaguge indicating our build information

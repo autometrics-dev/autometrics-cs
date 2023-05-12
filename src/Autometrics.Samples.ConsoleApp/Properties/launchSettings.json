@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "Autometrics.Samples.ConsoleApp.Console": {
+      "commandName": "Project",
+      "launchBrowser": true,
+      "environmentVariables": {
+        "ASPNETCORE_ENVIRONMENT": "Development"
+      },
+      "applicationUrl": "https://localhost:51477;http://localhost:51478"
+    }
+  }
+}

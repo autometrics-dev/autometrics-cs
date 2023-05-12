@@ -1,0 +1,56 @@
+﻿@page
+@model IndexModel
+@{
+    ViewData["Title"] = "Home page";
+}
+
+<div class="text-center">
+    <h1 class="display-4">Welcome</h1>
+    Use the boring buttons below to see the difference between an instrumented and non-instrumented function.
+</div>
+
+
+<div class="d-flex justify-content-center">
+    <table class="table" style="max-width: 600px;">
+        <thead>
+            <tr>
+                <th>Instrumented</th>
+                <th>Non-Instrumented</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td><button id="btnInstrumented">Test Call</button></td>
+                <td><button id="btnNonInstrumented">Test Call</button></td>
+            </tr>
+        </tbody>
+        <tfoot>
+            <tr>
+                <th colspan="2">Response</th>
+            </tr>
+            <tr>
+                <td colspan="2">
+                    <div id="response"></div>
+                </td>
+            </tr>
+        </tfoot>
+    </table>
+</div>
+
+@section Scripts {
+    <script>
+        $(function () {
+            $("#btnInstrumented").click(function () {
+                $.get("/test/InstrumentedFunction", function (data) {
+                    $("#response").html(data);
+                });
+            });
+
+            $("#btnNonInstrumented").click(function () {
+                $.get("/test/NonInstrumentedFunction", function (data) {
+                    $("#response").html(data);
+                });
+            });
+        });
+    </script>
+}

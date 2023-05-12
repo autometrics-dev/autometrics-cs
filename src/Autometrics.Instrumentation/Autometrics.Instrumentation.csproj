@@ -5,6 +5,7 @@
     <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyVersion>0.0.0.1</AssemblyVersion>
   </PropertyGroup>
   
   <ItemGroup>
