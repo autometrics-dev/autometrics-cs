@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.Metrics;
+﻿using Autometrics.Instrumentation.SLO;
+using System.Diagnostics.Metrics;
 using System.Reflection;
 
 namespace Autometrics.Instrumentation
@@ -16,12 +17,12 @@ namespace Autometrics.Instrumentation
         /// <summary>
         /// The counter used to track the number of function calls
         /// </summary>
-        private static readonly Counter<long> functionCallCount = autometricsMeter.CreateCounter<long>("function_calls_count");
+        private static readonly Counter<long> functionCallCount = autometricsMeter.CreateCounter<long>("function.calls.count");
 
         /// <summary>
         /// The histogram used to track the duration of function calls
         /// </summary>
-        private static readonly Histogram<long> functionCallDuration = autometricsMeter.CreateHistogram<long>("function_calls_duration");
+        private static readonly Histogram<double> functionCallDuration = autometricsMeter.CreateHistogram<double>("function.calls.duration");
 
         /// <summary>
         /// The non-changing gauge used to track the build information
@@ -39,7 +40,7 @@ namespace Autometrics.Instrumentation
         /// <returns></returns>
         private static Measurement<int> observeBuildInfo()
         {
-            return new Measurement<int>(0, buildTags);
+            return new Measurement<int>(1, buildTags);
         }
 
         /// <summary>
@@ -61,11 +62,11 @@ namespace Autometrics.Instrumentation
         /// <summary>
         /// Records the duration, result, and caller of a function call
         /// </summary>
-        /// <param name="duration">Duration in milliseconds</param>
+        /// <param name="duration">Duration in seconds</param>
         /// <param name="functionName">The name of the function tracked</param>
         /// <param name="success">A string value of "ok" or "error" based on the outcome</param>
         /// <param name="caller">optional caller data</param>
-        internal static void RecordFunctionCall(long duration, string functionName, bool success, string declaringType, string? caller)
+        internal static void RecordFunctionCall(double duration, string functionName, bool success, string declaringType, string? caller, Objective? slo)
         {
             List<KeyValuePair<string, object?>> callTags = new List<KeyValuePair<string, object?>>
             {
@@ -79,8 +80,18 @@ namespace Autometrics.Instrumentation
                 callTags.Add(new KeyValuePair<string, object?>("caller", caller));
             }
 
-            functionCallCount.Add(1, callTags.ToArray());
-            functionCallDuration.Record(duration, callTags.ToArray());
+            if (slo != null)
+            {
+
+                functionCallCount.Add(1, slo.GetCallCountTags(callTags));
+                functionCallDuration.Record(duration, slo.GetCallDurationTags(callTags));
+            }
+            else
+            {
+                functionCallCount.Add(1, callTags.ToArray());
+                functionCallDuration.Record(duration, callTags.ToArray());
+            }
+
         }
 
         /// <summary>

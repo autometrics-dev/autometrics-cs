@@ -1,24 +1,51 @@
 ﻿using AspectInjector.Broker;
+using Autometrics.Instrumentation.SLO;
 using System.Diagnostics;
 using System.Reflection;
 using System.Text.RegularExpressions;
 
 namespace Autometrics.Instrumentation.Attributes
 {
+
+    [Injection(typeof(AutometricsAspect))]
+    [AttributeUsage(AttributeTargets.Method)]
+    public class AutometricsAttribute : Attribute
+    {
+        /// <summary>
+        /// An Optional SLO to be used for this method,
+        /// <see href="https://github.com/autometrics-dev/autometrics-shared/blob/main/SPEC.md#service-level-objectives-slos">Service-Level Objectives (SLOs) Spec</see>
+        /// </summary>
+        public Objective? SLO { get; }
+
+        public AutometricsAttribute()
+        {
+            SLO = null;
+        }
+
+        public AutometricsAttribute(string objectiveName, ObjectivePercentile objectivePercentile, ObjectiveLatency objectiveLatencyThreshold, ObjectiveType objectiveType = ObjectiveType.SuccessAndLatency)
+        {
+            SLO = new Objective(objectiveName, objectivePercentile, objectiveLatencyThreshold, objectiveType);
+        }
+
+        public AutometricsAttribute(string objectiveName, ObjectivePercentile objectivePercentile)
+        {
+            SLO = new Objective(objectiveName, objectivePercentile);
+        }
+
+    }
+
+
     /// <summary>
     /// Autometrics attribute provides method duration tracking and exception tagging.
     /// For more information, see the project on GitHub:
     /// <see href="https://github.com/autometrics-dev">Autometrics on GitHub</see>
     /// </summary>
     [Aspect(Scope.Global)]
-    [Injection(typeof(AutometricsAttribute))]
-    [AttributeUsage(AttributeTargets.Method)]
-    public class AutometricsAttribute : Attribute
+    public class AutometricsAspect
     {
-
         // Aspect Injection renames methods, if we get a renamed one it will look like this: __a$_around_SaferMethod_100663303_o
         // We need a regex to identify these methods
-        private readonly static string renamedMethodRegex = @"^__a\$_around_(?<originalMethodName>.*)_\d{5,10}_o$";
+        private static readonly string renamedMethodRegex = @"^__a\$_around_(?<originalMethodName>.*)_\d{5,10}_o$";
 
         /// <summary>
         /// This is the method that will be injected into the target method, it will wrap the target method in a try/catch block and record the duration of the method call
@@ -34,16 +61,23 @@ namespace Autometrics.Instrumentation.Attributes
             [Argument(Source.Arguments)] object[] arguments,
             [Argument(Source.Metadata)] MethodBase metadata,
             [Argument(Source.Name)] string methodName,
-            [Argument(Source.Target)] Func<object[], object> method)
+            [Argument(Source.Target)] Func<object[], object> method,
+            [Argument(Source.Triggers)] Attribute[] triggers)
         {
             Stopwatch stopwatch = new Stopwatch();
             stopwatch.Start();
             bool success = false;
-            object result = null;
+
+            // We'll start with our objective as null, but if the trigger has one we'll use it
+            Objective? slo = null;
+            if(triggers.Length>0 && triggers[0] is AutometricsAttribute attribute)
+            {
+                slo = attribute.SLO;
+            }
 
             try
             {
-                result = method(arguments);
+                object result = method(arguments);
                 success = true;
                 return result;
             }
@@ -55,10 +89,8 @@ namespace Autometrics.Instrumentation.Attributes
             finally
             {
                 stopwatch.Stop();
-                string callingMethodName = GetCallingMethodName(metadata);
-                MetricCounters.RecordFunctionCall(stopwatch.ElapsedMilliseconds, methodName, success, metadata.DeclaringType.FullName, callingMethodName);
+                MetricCounters.RecordFunctionCall(stopwatch.Elapsed.TotalSeconds, methodName, success, metadata.DeclaringType.FullName, GetCallingMethodName(metadata), slo);
             }
-
         }
 
         /// <summary>

@@ -10,7 +10,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D19D9766-72A0-4664-B7C1-966E156345F4}"
 	ProjectSection(SolutionItems) = preProject
 		README.md = README.md
-		TestingNotes.md = TestingNotes.md
+		ConsoleAppSample.md = ConsoleAppSample.md
+		WebAppSample.md = WebAppSample.md
 	EndProjectSection
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autometrics.Samples.Library", "src\Autometrics.Samples.Library\Autometrics.Samples.Library.csproj", "{8D0E94F3-1C45-49BA-9C3E-AE6A20D557BE}"

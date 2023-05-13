@@ -42,6 +42,7 @@ namespace Autometrics.Samples.ConsoleApp
                             Console.WriteLine("Invalid input. Please enter a valid number.");
                         }
                         break;
+
                     case 5:
                         Console.Write("Enter the number of iterations to test for overhead: ");
                         if (int.TryParse(Console.ReadLine(), out int complexIterations))
@@ -57,6 +58,7 @@ namespace Autometrics.Samples.ConsoleApp
                             Console.WriteLine("Invalid input. Please enter a valid number.");
                         }
                         break;
+
                     case 6:
                         Console.WriteLine("Exiting...");
                         return;

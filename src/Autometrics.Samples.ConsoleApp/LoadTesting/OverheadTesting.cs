@@ -1,10 +1,4 @@
-﻿using Autometrics.Instrumentation.Attributes;
-using System.Diagnostics;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Diagnostics;
 
 namespace Autometrics.Samples.ConsoleApp.LoadTesting
 {
@@ -47,7 +41,6 @@ namespace Autometrics.Samples.ConsoleApp.LoadTesting
             Console.WriteLine($"Overhead: {avgTimeWithAutometrics - avgTimeWithoutAutometrics} ms");
         }
 
-
         public static void PerformRecursiveTest(int numberOfIterations = 100, int maxDepth = 5)
         {
             RecursiveTestExamples recursiveExampleTesting = new RecursiveTestExamples();
@@ -81,7 +74,7 @@ namespace Autometrics.Samples.ConsoleApp.LoadTesting
             long avgTimeWithoutAutometrics = stopwatch.ElapsedMilliseconds / numberOfIterations;
 
             Console.Clear();
-            Console.WriteLine(); 
+            Console.WriteLine();
 
             Console.WriteLine($"Average time with Autometrics: {avgTimeWithAutometrics} ms");
             Console.WriteLine($"Average time without Autometrics: {avgTimeWithoutAutometrics} ms");

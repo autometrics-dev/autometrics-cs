@@ -4,7 +4,7 @@ namespace Autometrics.Samples.ConsoleApp.InstrumentedExamples
 {
     public class BusinessLayer
     {
-        public DataAccessLayer DataAccessLayer { get; set; }
+        public DataAccessLayer? DataAccessLayer { get; set; }
 
         [Autometrics]
         public void ProcessRequest()
@@ -23,7 +23,7 @@ namespace Autometrics.Samples.ConsoleApp.InstrumentedExamples
             CheckInventory();
             EvaluateRisk();
 
-            DataAccessLayer.FetchData();
+            DataAccessLayer?.FetchData();
         }
 
         [Autometrics]

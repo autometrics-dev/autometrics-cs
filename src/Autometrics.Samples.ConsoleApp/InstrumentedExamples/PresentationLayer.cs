@@ -1,10 +1,11 @@
 ﻿using Autometrics.Instrumentation.Attributes;
+using Autometrics.Instrumentation.SLO;
 
 namespace Autometrics.Samples.ConsoleApp.InstrumentedExamples
 {
     public class PresentationLayer
     {
-        public BusinessLayer BusinessLayer { get; set; }
+        public BusinessLayer? BusinessLayer { get; set; }
 
         [Autometrics]
         public void HandleRequest()
@@ -19,16 +20,22 @@ namespace Autometrics.Samples.ConsoleApp.InstrumentedExamples
             ProfileUpdates();
             OrderGeneration();
 
-            BusinessLayer.ProcessRequest();
+            BusinessLayer?.ProcessRequest();
         }
 
-        [Autometrics]
+        [Autometrics("UserAuth", ObjectivePercentile.P99)]
         public void UserAuthentication()
         {
             Console.ForegroundColor = ConsoleColor.Magenta;
             Console.WriteLine("User authentication in Presentation Layer.");
             Console.ResetColor();
             Thread.Sleep(new Random().Next(100, 300));
+
+            // Simulate a 1.5% failure rate to trigger our SLO.
+            if (new Random().NextDouble() < 0.015)
+            {
+                throw new InvalidOperationException("An error occurred in the Presentation Layer.");
+            }
         }
 
         [Autometrics]
@@ -49,7 +56,7 @@ namespace Autometrics.Samples.ConsoleApp.InstrumentedExamples
             Thread.Sleep(new Random().Next(300, 800));
         }
 
-        [Autometrics]
+        [Autometrics("OrderCreation", ObjectivePercentile.P99, ObjectiveLatency.Ms500, ObjectiveType.SuccessAndLatency)]
         public void OrderGeneration()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;

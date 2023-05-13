@@ -1,7 +1,6 @@
 ﻿using Autometrics.Instrumentation.Attributes;
 using Autometrics.Samples.Library;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 
 namespace Autometrics.Samples.WebApp.Controllers
 {
@@ -19,7 +18,7 @@ namespace Autometrics.Samples.WebApp.Controllers
         [HttpGet("InstrumentedFunction")]
         public IActionResult InstrumentedFunction()
         {
-            int waitMS = (new Random().Next(200,4000));
+            int waitMS = (new Random().Next(200, 4000));
             ExternalExample externalExample = new ExternalExample();
             externalExample.InstrumentedMethod();
 

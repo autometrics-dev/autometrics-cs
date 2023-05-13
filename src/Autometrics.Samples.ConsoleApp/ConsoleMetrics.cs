@@ -1,6 +1,5 @@
 ﻿using Autometrics.Samples.ConsoleApp.InstrumentedExamples;
 using OpenTelemetry;
-using OpenTelemetry.Extensions.Hosting;
 using OpenTelemetry.Metrics;
 
 namespace Autometrics.Samples.ConsoleApp

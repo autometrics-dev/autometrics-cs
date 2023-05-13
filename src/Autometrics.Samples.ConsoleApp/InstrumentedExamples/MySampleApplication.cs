@@ -1,6 +1,4 @@
 ﻿using Autometrics.Samples.Library;
-using System;
-using System.Threading;
 
 namespace Autometrics.Samples.ConsoleApp.InstrumentedExamples
 {

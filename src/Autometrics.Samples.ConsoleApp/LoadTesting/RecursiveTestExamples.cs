@@ -1,6 +1,4 @@
 ﻿using Autometrics.Instrumentation.Attributes;
-using System;
-using System.Threading;
 
 namespace Autometrics.Samples.ConsoleApp.LoadTesting
 {

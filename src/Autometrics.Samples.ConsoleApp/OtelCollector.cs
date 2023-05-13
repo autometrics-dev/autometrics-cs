@@ -15,7 +15,7 @@ namespace Autometrics.Samples.ConsoleApp
                 .Build();
 
             Console.WriteLine("Listener ready, starting to generate metrics.");
-            
+
             // Run our sample application
             MySampleApplication.DoApplicationStuff();
         }
