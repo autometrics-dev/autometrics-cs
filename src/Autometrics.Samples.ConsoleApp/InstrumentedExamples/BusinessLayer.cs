@@ -1,12 +1,13 @@
-﻿using Autometrics.Instrumentation.Attributes;
+﻿using AspectInjector.Broker;
+using Autometrics.Instrumentation.Attributes;
 
 namespace Autometrics.Samples.ConsoleApp.InstrumentedExamples
-{
+{       
+    [Autometrics]
     public class BusinessLayer
-    {
+    { 
         public DataAccessLayer? DataAccessLayer { get; set; }
 
-        [Autometrics]
         public void ProcessRequest()
         {
             Console.ForegroundColor = ConsoleColor.Cyan;
@@ -26,7 +27,7 @@ namespace Autometrics.Samples.ConsoleApp.InstrumentedExamples
             DataAccessLayer?.FetchData();
         }
 
-        [Autometrics]
+        [SkipInjection]
         public void CalculateShippingCost()
         {
             Console.ForegroundColor = ConsoleColor.Magenta;
@@ -35,7 +36,6 @@ namespace Autometrics.Samples.ConsoleApp.InstrumentedExamples
             Thread.Sleep(new Random().Next(100, 300));
         }
 
-        [Autometrics]
         public void CheckInventory()
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
@@ -44,7 +44,6 @@ namespace Autometrics.Samples.ConsoleApp.InstrumentedExamples
             Thread.Sleep(new Random().Next(200, 600));
         }
 
-        [Autometrics]
         public void EvaluateRisk()
         {
             Console.ForegroundColor = ConsoleColor.Green;

@@ -10,6 +10,7 @@ Autometrics-CS is a C# instrumentation of the [Autometrics](https://github.com/a
 - [Getting Started](#getting-started)
   - [Usage](#usage)
   - [Instrumenting Methods](#instrumenting-methods)
+  - [Instrumenting Classes](#instrumenting-classes)
   - [Adding SLO Information](#adding-slo-information)
 - [Examples](#examples)
   - [Usage in a Library](#usage-in-a-library)
@@ -49,6 +50,27 @@ The instrumentation attribute can be added to any method and its usage doesn't c
 private bool CheckRedisCache()
 {
     // Your unchanged code here
+}
+```
+
+### Instrumenting Classes
+The instrumentation attribute can be added to classes and will apply to all methods within a class.  The `SkipInjection` attribute from the AspectInjector package can be added to methods to prevent them from being instrumented.
+```
+[Autometrics]
+public class BusinessLayer
+{ 
+    public DataAccessLayer? DataAccessLayer { get; set; }
+
+    public void ProcessRequest()
+    {
+        // Your instrumented code here
+    }
+
+    [SkipInjection]
+    public void CalculateShippingCost()
+    {
+        // Your non instrumented code here
+    }
 }
 ```
 
