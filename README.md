@@ -55,7 +55,7 @@ private bool CheckRedisCache()
 
 ### Instrumenting Classes
 The instrumentation attribute can be added to classes and will apply to all methods within a class.  The `SkipInjection` attribute from the AspectInjector package can be added to methods to prevent them from being instrumented.
-```
+```csharp
 [Autometrics]
 public class BusinessLayer
 { 
