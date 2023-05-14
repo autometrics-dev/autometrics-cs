@@ -27,4 +27,4 @@ jobs:
       uses: EnricoMi/publish-unit-test-result-action@v1
       if: always()
       with:
-        files: TestResults.xml
+        files: ${{ github.workspace }}/*/TestResults/*.xml
