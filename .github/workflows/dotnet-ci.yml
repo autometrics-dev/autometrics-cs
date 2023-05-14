@@ -22,4 +22,11 @@ jobs:
     - name: Build
       run: dotnet build Autometrics-CS.sln --no-restore --configuration Release
     - name: Test
-      run: dotnet test Autometrics-CS.sln --verbosity normal --configuration Release
+      run: dotnet test Autometrics-CS.sln --verbosity normal --configuration Release --logger "nunit;LogFilePath=TestResults.xml"
+    - name: Convert Test Results
+      run: docker run --rm -v$PWD:/app -w/app sverrirab/nunit3-junit-xml-transformer TestResults.xml
+    - name: Publish Unit Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v1
+      if: always()
+      with:
+        files: TestResults.xml
