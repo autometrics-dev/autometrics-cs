@@ -8,11 +8,12 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D19D9766-72A0-4664-B7C1-966E156345F4}"
 	ProjectSection(SolutionItems) = preProject
 		ConsoleAppSample.md = ConsoleAppSample.md
+		.github\workflows\dotnet-ci.yml = .github\workflows\dotnet-ci.yml
 		README.md = README.md
 		WebAppSample.md = WebAppSample.md
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autometrics.Instrumentation.Tests", "src\Autometrics.Instrumentation.Tests\Autometrics.Instrumentation.Tests.csproj", "{93EAE891-CAB6-47D4-80A8-B151A423FDA6}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autometrics.Instrumentation.Tests", "src\Autometrics.Instrumentation.Tests\Autometrics.Instrumentation.Tests.csproj", "{93EAE891-CAB6-47D4-80A8-B151A423FDA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
