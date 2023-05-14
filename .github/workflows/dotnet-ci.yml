@@ -2,7 +2,7 @@ name: .NET CI
 
 on:
   push:
-    branches: [ "master", "build-automation" ]
+    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
@@ -23,13 +23,3 @@ jobs:
       run: dotnet build Autometrics-CS.sln --no-restore --configuration Release
     - name: Test
       run: dotnet test Autometrics-CS.sln --verbosity normal --configuration Release --logger "nunit"
-    - name: Reformat Test Files (NUnit != JUnit)
-      run: |
-        sed -i 's/test-case/testcase/' ${{ github.workspace }}/*/TestResults/*.xml
-        sed -i 's/test-suite/testsuite/' ${{ github.workspace }}/*/TestResults/*.xml
-        sed -i 's/test-run/testsuite/' ${{ github.workspace }}/*/TestResults/*.xml
-    - name: Publish Unit Test Results
-      uses: EnricoMi/publish-unit-test-result-action@v1
-      if: always()
-      with:
-        files: ${{ github.workspace }}/*/TestResults/*.xml
