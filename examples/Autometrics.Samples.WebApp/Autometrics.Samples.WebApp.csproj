@@ -13,7 +13,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\Autometrics.Instrumentation\Autometrics.Instrumentation.csproj" />
-    <ProjectReference Include="..\Autometrics.Samples.Library\Autometrics.Samples.Library.csproj" />
   </ItemGroup>
 
 </Project>

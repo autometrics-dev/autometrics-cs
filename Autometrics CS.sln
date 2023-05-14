@@ -5,18 +5,14 @@ VisualStudioVersion = 17.5.33627.172
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autometrics.Instrumentation", "src\Autometrics.Instrumentation\Autometrics.Instrumentation.csproj", "{A220D3AC-D7FC-4CCA-BC38-F209691851C2}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autometrics.Samples.ConsoleApp", "src\Autometrics.Samples.ConsoleApp\Autometrics.Samples.ConsoleApp.csproj", "{5B273D22-039A-4D0E-B6AF-61C53114272C}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{D19D9766-72A0-4664-B7C1-966E156345F4}"
 	ProjectSection(SolutionItems) = preProject
-		README.md = README.md
 		ConsoleAppSample.md = ConsoleAppSample.md
+		README.md = README.md
 		WebAppSample.md = WebAppSample.md
 	EndProjectSection
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autometrics.Samples.Library", "src\Autometrics.Samples.Library\Autometrics.Samples.Library.csproj", "{8D0E94F3-1C45-49BA-9C3E-AE6A20D557BE}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Autometrics.Samples.WebApp", "src\Autometrics.Samples.WebApp\Autometrics.Samples.WebApp.csproj", "{F0D630F9-6603-4D40-A45F-C93C9CA7FE5B}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Autometrics.Instrumentation.Tests", "src\Autometrics.Instrumentation.Tests\Autometrics.Instrumentation.Tests.csproj", "{93EAE891-CAB6-47D4-80A8-B151A423FDA6}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -28,18 +24,10 @@ Global
 		{A220D3AC-D7FC-4CCA-BC38-F209691851C2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A220D3AC-D7FC-4CCA-BC38-F209691851C2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A220D3AC-D7FC-4CCA-BC38-F209691851C2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B273D22-039A-4D0E-B6AF-61C53114272C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B273D22-039A-4D0E-B6AF-61C53114272C}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B273D22-039A-4D0E-B6AF-61C53114272C}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B273D22-039A-4D0E-B6AF-61C53114272C}.Release|Any CPU.Build.0 = Release|Any CPU
-		{8D0E94F3-1C45-49BA-9C3E-AE6A20D557BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{8D0E94F3-1C45-49BA-9C3E-AE6A20D557BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{8D0E94F3-1C45-49BA-9C3E-AE6A20D557BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{8D0E94F3-1C45-49BA-9C3E-AE6A20D557BE}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F0D630F9-6603-4D40-A45F-C93C9CA7FE5B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F0D630F9-6603-4D40-A45F-C93C9CA7FE5B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F0D630F9-6603-4D40-A45F-C93C9CA7FE5B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F0D630F9-6603-4D40-A45F-C93C9CA7FE5B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{93EAE891-CAB6-47D4-80A8-B151A423FDA6}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{93EAE891-CAB6-47D4-80A8-B151A423FDA6}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{93EAE891-CAB6-47D4-80A8-B151A423FDA6}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{93EAE891-CAB6-47D4-80A8-B151A423FDA6}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
