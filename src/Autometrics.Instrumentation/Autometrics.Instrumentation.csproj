@@ -6,7 +6,20 @@
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <AssemblyVersion>0.0.1.0</AssemblyVersion>
+    <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
+    <Authors>Autometrics, P2P-Nathan</Authors>
+    <PackageProjectUrl>https://github.com/autometrics-dev</PackageProjectUrl>
+    <Title>Autometrics Instrumentation</Title>
+    <Version>0.0.1-alpha1</Version>
   </PropertyGroup>
+  
+  <ItemGroup>
+    <None Remove="readme.txt" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="readme.txt" />
+  </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="AspectInjector" Version="2.8.1" />
