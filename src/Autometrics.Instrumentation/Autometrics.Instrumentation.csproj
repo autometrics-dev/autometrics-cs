@@ -10,20 +10,38 @@
     <Authors>Autometrics, P2P-Nathan</Authors>
     <PackageProjectUrl>https://github.com/autometrics-dev</PackageProjectUrl>
     <Title>Autometrics Instrumentation</Title>
-    <Version>0.0.1-alpha1</Version>
+    <Version>0.1.0-alpha1</Version>
+    <Description>A .NET instrumentation of the Autometrics (https://github.com/autometrics-dev) observability micro-framework. It makes it quick and easy to instrument your code to collect standardized metrics, including function call counts, durations, and build information.</Description>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <PackageReleaseNotes>This is the initial Alpha release of Autometrics for .NET</PackageReleaseNotes>
+    <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
+    <IncludeSymbols>True</IncludeSymbols>
+    <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+    <PackageIcon>autometrics_logo.png</PackageIcon>
   </PropertyGroup>
   
   <ItemGroup>
-    <None Remove="readme.txt" />
-  </ItemGroup>
-  
-  <ItemGroup>
-    <Content Include="readme.txt" />
+    <Content Include="README.md" />
   </ItemGroup>
   
   <ItemGroup>
     <PackageReference Include="AspectInjector" Version="2.8.1" />
     <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="7.0.2" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <None Update="autometrics_logo.png">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="LICENSE.txt">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
+    <None Update="README.md">
+      <Pack>True</Pack>
+      <PackagePath>\</PackagePath>
+    </None>
   </ItemGroup>
   
 </Project>
