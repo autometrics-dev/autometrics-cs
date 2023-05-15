@@ -53,7 +53,7 @@ jobs:
       if: always()
       with:
         files: |
-          src/Autometrics.Instrumentation.Tests/TestResults/TestResults.xml
+          /home/runner/work/autometrics-cs/autometrics-cs/src/Autometrics.Instrumentation.Tests/TestResults/TestResults.xml
 
     - name: Publish
       if: startsWith(github.ref, 'refs/heads/release')
