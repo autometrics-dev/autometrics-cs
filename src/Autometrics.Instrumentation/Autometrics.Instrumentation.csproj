@@ -9,6 +9,14 @@
   </PropertyGroup>
   
   <ItemGroup>
+    <None Remove="readme.txt" />
+  </ItemGroup>
+  
+  <ItemGroup>
+    <Content Include="readme.txt" />
+  </ItemGroup>
+  
+  <ItemGroup>
     <PackageReference Include="AspectInjector" Version="2.8.1" />
     <PackageReference Include="System.Diagnostics.DiagnosticSource" Version="7.0.2" />
   </ItemGroup>

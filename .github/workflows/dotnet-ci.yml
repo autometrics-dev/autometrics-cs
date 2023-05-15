@@ -2,7 +2,7 @@ name: .NET CI
 
 on:
   push:
-    branches: [ "master" ]
+    branches: [ "master", "build-packaging" ]
   pull_request:
     branches: [ "master" ]
 
@@ -23,3 +23,11 @@ jobs:
       run: dotnet build Autometrics-CS.sln --no-restore --configuration Release
     - name: Test
       run: dotnet test Autometrics-CS.sln --verbosity normal --configuration Release --logger "nunit"
+    - name: Publish Test Results
+      uses: EnricoMi/publish-unit-test-result-action@v2
+      if: always()
+      with:
+        files: |
+          test-results/**/*.xml
+          test-results/**/*.trx
+          test-results/**/*.json
