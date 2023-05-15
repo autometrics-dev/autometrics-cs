@@ -1,8 +1,11 @@
 name: .NET CI
 
 on:
+  create:
+    branches: 
+      - release/**
   push:
-    branches: [ "master", "build-packaging" ]
+    branches: [ "master" ]
   pull_request:
     branches: [ "master" ]
 
