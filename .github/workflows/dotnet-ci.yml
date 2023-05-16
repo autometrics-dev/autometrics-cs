@@ -5,9 +5,9 @@ on:
     branches: 
       - release/**
   push:
-    branches: [ "master" ]
+    branches: [ "main" ]
   pull_request:
-    branches: [ "master" ]
+    branches: [ "main" ]
 
 
 permissions:
@@ -60,8 +60,4 @@ jobs:
 
     - name: Publish
       if: startsWith(github.ref, 'refs/heads/release')
-      run: nuget push **\*.nupkg -Source 'https://apiint.nugettest.org/v3/index.json' -ApiKey ${{secrets.NUGET_INT_API_KEY}}
-
-    - name: Publish Symbols
-      if: startsWith(github.ref, 'refs/heads/release')
-      run: nuget push **\*.snupkg -Source 'https://apiint.nugettest.org/v3/index.json' -ApiKey ${{secrets.NUGET_INT_API_KEY}}
+      run: nuget push **\*.nupkg -Source 'https://api.nuget.org/v3/index.json' -ApiKey ${{secrets.AUTOMETRICS_NUGET_PACKAGE_KEY}}
