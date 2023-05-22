@@ -47,12 +47,16 @@
         /// <returns></returns>
         public KeyValuePair<string, object?>[] GetCallCountTags(List<KeyValuePair<string, object?>> callTags)
         {
+            List<KeyValuePair<string,object?>> countTags = new List<KeyValuePair<string, object?>>();
+
             if (ObjectiveType == ObjectiveType.SuccessRate || ObjectiveType == ObjectiveType.SuccessAndLatency)
             {
-                callTags.Add(new KeyValuePair<string, object?>("objective.name", ObjectiveName));
-                callTags.Add(new KeyValuePair<string, object?>("objective.percentile", ((double)ObjectivePercentile / 10)));
+                countTags.Add(new KeyValuePair<string, object?>("objective.name", ObjectiveName));
+                countTags.Add(new KeyValuePair<string, object?>("objective.percentile", ((double)ObjectivePercentile / 10)));
             }
-            return callTags.ToArray();
+
+            countTags.AddRange(callTags);
+            return countTags.ToArray();
         }
 
         /// <summary>
@@ -62,13 +66,17 @@
         /// <returns></returns>
         public KeyValuePair<string, object?>[] GetCallDurationTags(List<KeyValuePair<string, object?>> callTags)
         {
+            List<KeyValuePair<string,object?>> durationTags = new List<KeyValuePair<string, object?>>();
+
             if (ObjectiveType == ObjectiveType.LatencyThreshold || ObjectiveType == ObjectiveType.SuccessAndLatency)
             {
-                callTags.Add(new KeyValuePair<string, object?>("objective.name", ObjectiveName));
-                callTags.Add(new KeyValuePair<string, object?>("objective.percentile", (double)ObjectivePercentile / 10));
-                callTags.Add(new KeyValuePair<string, object?>("objective.latency_threshold", (double)ObjectiveLatencyThreshold / 1000));
+                durationTags.Add(new KeyValuePair<string, object?>("objective.name", ObjectiveName));
+                durationTags.Add(new KeyValuePair<string, object?>("objective.percentile", (double)ObjectivePercentile / 10));
+                durationTags.Add(new KeyValuePair<string, object?>("objective.latency_threshold", (double)ObjectiveLatencyThreshold / 1000));
             }
-            return callTags.ToArray();
+
+            durationTags.AddRange(callTags);
+            return durationTags.ToArray();
         }
     }
 }
