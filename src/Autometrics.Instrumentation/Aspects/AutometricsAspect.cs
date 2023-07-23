@@ -41,9 +41,11 @@ namespace Autometrics.Instrumentation.Aspects
 
             // We'll start with our objective as null, but if the trigger has one we'll use it
             Objective? slo = null;
+            string? serviceName = null;
             if (triggers.Length > 0 && triggers[0] is AutometricsAttribute attribute)
             {
                 slo = attribute.SLO;
+                serviceName = attribute.GetServiceName();
             }
 
             try
@@ -62,7 +64,7 @@ namespace Autometrics.Instrumentation.Aspects
             finally
             {
                 stopwatch.Stop();
-                MetricCounters.RecordFunctionCall(stopwatch.Elapsed.TotalSeconds, methodName, success, metadata.DeclaringType.FullName, GetCallingMethodName(metadata), slo);
+                MetricCounters.RecordFunctionCall(stopwatch.Elapsed.TotalSeconds, methodName, success, metadata.DeclaringType.FullName, GetCallingMethodName(metadata), serviceName, slo);
             }
         }
 

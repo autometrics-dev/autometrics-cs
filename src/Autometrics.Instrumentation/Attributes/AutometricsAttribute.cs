@@ -17,29 +17,42 @@ namespace Autometrics.Instrumentation.Attributes
         /// <see href="https://github.com/autometrics-dev/autometrics-shared/blob/main/SPEC.md#service-level-objectives-slos">Service-Level Objectives (SLOs) Spec</see>
         /// </summary>
         public Objective? SLO { get; }
-        public string ServiceName { get; private set; }
+        public string EntryAssemblyName { get; private set; }
+        public string? ServiceName { get; set; }
 
-        public AutometricsAttribute()
+        public AutometricsAttribute(string? serviceName = null)
         {
             SLO = null;
-            ServiceName = GetServiceName();
+            EntryAssemblyName = GetAssemblyName();
+            ServiceName = serviceName;
         }
 
-        public AutometricsAttribute(string objectiveName, ObjectivePercentile objectivePercentile, ObjectiveLatency objectiveLatencyThreshold, ObjectiveType objectiveType = ObjectiveType.SuccessAndLatency)
+        public AutometricsAttribute(string objectiveName, ObjectivePercentile objectivePercentile, ObjectiveLatency objectiveLatencyThreshold, ObjectiveType objectiveType = ObjectiveType.SuccessAndLatency, string? serviceName = null)
         {
             SLO = new Objective(objectiveName, objectivePercentile, objectiveLatencyThreshold, objectiveType);
-            ServiceName = GetServiceName();
+            EntryAssemblyName = GetAssemblyName();
+            ServiceName = serviceName;
         }
 
-        public AutometricsAttribute(string objectiveName, ObjectivePercentile objectivePercentile)
+        public AutometricsAttribute(string objectiveName, ObjectivePercentile objectivePercentile, string? serviceName = null)
         {
             SLO = new Objective(objectiveName, objectivePercentile);
-            ServiceName = GetServiceName();
+            EntryAssemblyName = GetAssemblyName();
+            ServiceName = serviceName;
         }
 
-        private string GetServiceName()
+        private string GetAssemblyName()
         {
             return Assembly.GetEntryAssembly()?.GetName().Name ?? "Unknown";
+        }
+
+        /// <summary>
+        /// Gets the ServiceName, starting at the Attribule level, then the Environment Variable, then the EntryAssemblyName
+        /// </summary>
+        /// <returns></returns>
+        public string GetServiceName()
+        {
+            return ServiceName ?? Environment.GetEnvironmentVariable("AUTOMETRICS_SERVICE_NAME") ?? Environment.GetEnvironmentVariable("OTEL_SERVICE_NAME") ?? EntryAssemblyName;
         }
 
     }

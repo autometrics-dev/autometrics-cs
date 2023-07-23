@@ -66,13 +66,14 @@ namespace Autometrics.Instrumentation
         /// <param name="functionName">The name of the function tracked</param>
         /// <param name="success">A string value of "ok" or "error" based on the outcome</param>
         /// <param name="caller">optional caller data</param>
-        internal static void RecordFunctionCall(double duration, string functionName, bool success, string declaringType, string? caller, Objective? slo)
+        internal static void RecordFunctionCall(double duration, string functionName, bool success, string declaringType, string? caller, string? serviceName, Objective? slo)
         {
             List<KeyValuePair<string, object?>> callTags = new List<KeyValuePair<string, object?>>
             {
                 new KeyValuePair<string, object?>("function", functionName),
                 new KeyValuePair<string, object?>("module", declaringType),
-                new KeyValuePair<string, object?>("result", success ? "ok" : "error")
+                new KeyValuePair<string, object?>("result", success ? "ok" : "error"),
+                new KeyValuePair<string, object?>("service.name", serviceName)
             };
 
             if (caller != null)
@@ -82,7 +83,6 @@ namespace Autometrics.Instrumentation
 
             if (slo != null)
             {
-
                 functionCallCount.Add(1, slo.GetCallCountTags(callTags));
                 functionCallDuration.Record(duration, slo.GetCallDurationTags(callTags));
             }
@@ -102,6 +102,13 @@ namespace Autometrics.Instrumentation
         private static KeyValuePair<string, object?>[] SetBuildTags(Assembly assembly)
         {
             Dictionary<string, object?> buildTags = new Dictionary<string, object?>();
+
+            // if our environmental variables are not null, use that as the service name
+            string? serviceName = Environment.GetEnvironmentVariable("AUTOMETRICS_SERVICE_NAME") ?? Environment.GetEnvironmentVariable("OTEL_SERVICE_NAME");
+            if (serviceName != null)
+            {
+                buildTags.Add("service.name", serviceName);
+            }
 
             AssemblyName? assemblyName = assembly?.GetName();
             AssemblyInformationalVersionAttribute assemblyInformationalVersionAttribute = assembly.GetCustomAttribute<AssemblyInformationalVersionAttribute>();
