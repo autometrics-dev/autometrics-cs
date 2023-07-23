@@ -1,11 +1,8 @@
 ﻿using AspectInjector.Broker;
 using Autometrics.Instrumentation.Attributes;
 using Autometrics.Instrumentation.SLO;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Autometrics.Instrumentation.Aspects
@@ -18,6 +15,8 @@ namespace Autometrics.Instrumentation.Aspects
     [Aspect(Scope.Global)]
     public class AutometricsAspect
     {
+        private static readonly Regex _methodRegex = new Regex(renamedMethodRegex, RegexOptions.Compiled);
+
         // Aspect Injection renames methods, if we get a renamed one it will look like this: __a$_around_SaferMethod_100663303_o
         // We need a regex to identify these methods
         private static readonly string renamedMethodRegex = @"^__a\$_around_(?<originalMethodName>.*)_\d{5,10}_o$";
@@ -40,7 +39,6 @@ namespace Autometrics.Instrumentation.Aspects
             [Argument(Source.Triggers)] Attribute[] triggers)
         {
             Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
             bool success = false;
 
             // We'll start with our objective as null, but if the trigger has one we'll use it
@@ -52,6 +50,8 @@ namespace Autometrics.Instrumentation.Aspects
 
             try
             {
+                // start the stopwatch, call the method, stop the stopwatch to record the duration
+                stopwatch.Start();
                 object result = method(arguments);
                 success = true;
                 return result;
@@ -84,27 +84,25 @@ namespace Autometrics.Instrumentation.Aspects
                 return null;
             }
 
-            for (int i = 0; i < stackFrames.Length; i++)
+            int length = stackFrames.Length;
+            for (int i = 0; i < length; i++)
             {
                 if (stackFrames[i].GetMethod() == method)
                 {
                     // The calling method is the one before the current method in the stack
-                    callingMethod = i + 1 < stackFrames.Length ? stackFrames[i + 1].GetMethod() : null;
+                    callingMethod = i + 1 < length ? stackFrames[i + 1].GetMethod() : null;
                 }
             }
 
             // If the calling method isn't null, match it to our regex to see if it's a renamed method, then return the original name
             if (callingMethod != null)
             {
-                var match = Regex.Match(callingMethod.Name, renamedMethodRegex, RegexOptions.Compiled);
+                var match = _methodRegex.Match(callingMethod.Name);
                 if (match.Success)
                 {
                     return match.Groups["originalMethodName"].Value;
                 }
-                else
-                {
-                    return callingMethod.Name;
-                }
+                return callingMethod.Name;
             }
 
             return null;
