@@ -15,11 +15,9 @@ namespace Autometrics.Instrumentation.Aspects
     [Aspect(Scope.Global)]
     public class AutometricsAspect
     {
-        private static readonly Regex _methodRegex = new Regex(renamedMethodRegex, RegexOptions.Compiled);
-
         // Aspect Injection renames methods, if we get a renamed one it will look like this: __a$_around_SaferMethod_100663303_o
         // We need a regex to identify these methods
-        private static readonly string renamedMethodRegex = @"^__a\$_around_(?<originalMethodName>.*)_\d{5,10}_o$";
+        private static readonly Regex _methodRegex = new Regex(@"^__a\$_around_(?<originalMethodName>.*)_\d{5,10}_o$", RegexOptions.Compiled);
 
         /// <summary>
         /// This is the method that will be injected into the target method, it will wrap the target method in a try/catch block and record the duration of the method call
