@@ -18,27 +18,23 @@ namespace Autometrics.Instrumentation.Attributes
         /// </summary>
         public Objective? SLO { get; }
         public string EntryAssemblyName { get; private set; }
-        public string? ServiceName { get; set; }
 
-        public AutometricsAttribute(string? serviceName = null)
+        public AutometricsAttribute()
         {
             SLO = null;
             EntryAssemblyName = GetAssemblyName();
-            ServiceName = serviceName;
         }
 
-        public AutometricsAttribute(string objectiveName, ObjectivePercentile objectivePercentile, ObjectiveLatency objectiveLatencyThreshold, ObjectiveType objectiveType = ObjectiveType.SuccessAndLatency, string? serviceName = null)
+        public AutometricsAttribute(string objectiveName, ObjectivePercentile objectivePercentile, ObjectiveLatency objectiveLatencyThreshold, ObjectiveType objectiveType = ObjectiveType.SuccessAndLatency)
         {
             SLO = new Objective(objectiveName, objectivePercentile, objectiveLatencyThreshold, objectiveType);
             EntryAssemblyName = GetAssemblyName();
-            ServiceName = serviceName;
         }
 
-        public AutometricsAttribute(string objectiveName, ObjectivePercentile objectivePercentile, string? serviceName = null)
+        public AutometricsAttribute(string objectiveName, ObjectivePercentile objectivePercentile)
         {
             SLO = new Objective(objectiveName, objectivePercentile);
             EntryAssemblyName = GetAssemblyName();
-            ServiceName = serviceName;
         }
 
         private string GetAssemblyName()
@@ -52,7 +48,7 @@ namespace Autometrics.Instrumentation.Attributes
         /// <returns></returns>
         public string GetServiceName()
         {
-            return ServiceName ?? Environment.GetEnvironmentVariable("AUTOMETRICS_SERVICE_NAME") ?? Environment.GetEnvironmentVariable("OTEL_SERVICE_NAME") ?? EntryAssemblyName;
+            return Environment.GetEnvironmentVariable("AUTOMETRICS_SERVICE_NAME") ?? Environment.GetEnvironmentVariable("OTEL_SERVICE_NAME") ?? EntryAssemblyName;
         }
 
     }
