@@ -31,7 +31,7 @@ namespace Autometrics.Instrumentation.Tests.Utils
                     case "result":
                         Result = tag.Value?.ToString();
                         break;
-                    case "caller":
+                    case "caller.function":
                         Caller = tag.Value?.ToString();
                         break;
                     case "objectiveName":

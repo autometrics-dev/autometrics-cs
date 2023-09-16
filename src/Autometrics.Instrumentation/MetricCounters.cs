@@ -1,4 +1,5 @@
-﻿using Autometrics.Instrumentation.SLO;
+﻿using Autometrics.Instrumentation.Attributes;
+using Autometrics.Instrumentation.SLO;
 using System.Diagnostics.Metrics;
 using System.Reflection;
 
@@ -66,7 +67,7 @@ namespace Autometrics.Instrumentation
         /// <param name="functionName">The name of the function tracked</param>
         /// <param name="success">A string value of "ok" or "error" based on the outcome</param>
         /// <param name="caller">optional caller data</param>
-        internal static void RecordFunctionCall(double duration, string functionName, bool success, string declaringType, string? caller, string? serviceName, Objective? slo)
+        internal static void RecordFunctionCall(double duration, string functionName, bool success, string declaringType, CallingMethod caller, string? serviceName, Objective? slo)
         {
             List<KeyValuePair<string, object?>> callTags = new List<KeyValuePair<string, object?>>
             {
@@ -76,9 +77,10 @@ namespace Autometrics.Instrumentation
                 new KeyValuePair<string, object?>("service.name", serviceName)
             };
 
-            if (caller != null)
+            if (caller.HasMethodData)
             {
-                callTags.Add(new KeyValuePair<string, object?>("caller", caller));
+                callTags.Add(new KeyValuePair<string, object?>("caller.function", caller.MethodName));
+                callTags.Add(new KeyValuePair<string, object?>("caller.module", caller.MethodModule));
             }
 
             if (slo != null)
