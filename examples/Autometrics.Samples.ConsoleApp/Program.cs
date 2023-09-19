@@ -15,6 +15,9 @@ namespace Autometrics.Samples.ConsoleApp
             Console.WriteLine("6. Exit");
             Console.Write("Enter the option number: ");
 
+            //set the environment variable for the service name, yuo can also use OTEL_SERVICE_NAME
+            System.Environment.SetEnvironmentVariable("AUTOMETRICS_SERVICE_NAME", "Console Simulator!");
+
             if (int.TryParse(Console.ReadLine(), out int option))
             {
                 switch (option)

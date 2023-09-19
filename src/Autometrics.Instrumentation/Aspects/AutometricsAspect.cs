@@ -1,11 +1,8 @@
 ﻿using AspectInjector.Broker;
 using Autometrics.Instrumentation.Attributes;
 using Autometrics.Instrumentation.SLO;
-using System;
-using System.Collections.Generic;
 using System.Diagnostics;
 using System.Reflection;
-using System.Text;
 using System.Text.RegularExpressions;
 
 namespace Autometrics.Instrumentation.Aspects
@@ -18,10 +15,6 @@ namespace Autometrics.Instrumentation.Aspects
     [Aspect(Scope.Global)]
     public class AutometricsAspect
     {
-        // Aspect Injection renames methods, if we get a renamed one it will look like this: __a$_around_SaferMethod_100663303_o
-        // We need a regex to identify these methods
-        private static readonly string renamedMethodRegex = @"^__a\$_around_(?<originalMethodName>.*)_\d{5,10}_o$";
-
         /// <summary>
         /// This is the method that will be injected into the target method, it will wrap the target method in a try/catch block and record the duration of the method call
         /// If any exceptions are thrown, they will be rethrown after the duration is recorded and a result of error tagged on the metric
@@ -40,18 +33,21 @@ namespace Autometrics.Instrumentation.Aspects
             [Argument(Source.Triggers)] Attribute[] triggers)
         {
             Stopwatch stopwatch = new Stopwatch();
-            stopwatch.Start();
             bool success = false;
 
             // We'll start with our objective as null, but if the trigger has one we'll use it
             Objective? slo = null;
+            string? serviceName = null;
             if (triggers.Length > 0 && triggers[0] is AutometricsAttribute attribute)
             {
                 slo = attribute.SLO;
+                serviceName = attribute.GetServiceName();
             }
 
             try
             {
+                // start the stopwatch, call the method, stop the stopwatch to record the duration
+                stopwatch.Start();
                 object result = method(arguments);
                 success = true;
                 return result;
@@ -64,50 +60,9 @@ namespace Autometrics.Instrumentation.Aspects
             finally
             {
                 stopwatch.Stop();
-                MetricCounters.RecordFunctionCall(stopwatch.Elapsed.TotalSeconds, methodName, success, metadata.DeclaringType.FullName, GetCallingMethodName(metadata), slo);
+                CallingMethod caller = new CallingMethod(metadata);
+                MetricCounters.RecordFunctionCall(stopwatch.Elapsed.TotalSeconds, methodName, success, metadata.DeclaringType.FullName, caller, serviceName, slo);
             }
-        }
-
-        /// <summary>
-        /// This resolves the name of the calling method, and if the calling method was renamed by AspectInjector, it will attempt to return the original name via regex
-        /// </summary>
-        /// <param name="method">The metadata from AspectInjector</param>
-        /// <returns></returns>
-        private static string? GetCallingMethodName(MethodBase method)
-        {
-            var stackTrace = new StackTrace();
-            var stackFrames = stackTrace.GetFrames();
-            MethodBase callingMethod = null;
-
-            if (stackFrames == null)
-            {
-                return null;
-            }
-
-            for (int i = 0; i < stackFrames.Length; i++)
-            {
-                if (stackFrames[i].GetMethod() == method)
-                {
-                    // The calling method is the one before the current method in the stack
-                    callingMethod = i + 1 < stackFrames.Length ? stackFrames[i + 1].GetMethod() : null;
-                }
-            }
-
-            // If the calling method isn't null, match it to our regex to see if it's a renamed method, then return the original name
-            if (callingMethod != null)
-            {
-                var match = Regex.Match(callingMethod.Name, renamedMethodRegex, RegexOptions.Compiled);
-                if (match.Success)
-                {
-                    return match.Groups["originalMethodName"].Value;
-                }
-                else
-                {
-                    return callingMethod.Name;
-                }
-            }
-
-            return null;
         }
     }
 }

@@ -5,23 +5,23 @@
     <LangVersion>10.0</LangVersion>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
-    <AssemblyVersion>0.0.1.0</AssemblyVersion>
     <GeneratePackageOnBuild>True</GeneratePackageOnBuild>
     <Authors>Autometrics, P2P-Nathan</Authors>
     <PackageProjectUrl>https://github.com/autometrics-dev</PackageProjectUrl>
     <Title>Autometrics Instrumentation</Title>
-    <Version>0.1.0-alpha1</Version>
+    <Version>0.2.0-beta</Version>
     <Description>A .NET instrumentation of the Autometrics (https://github.com/autometrics-dev) observability micro-framework. It makes it quick and easy to instrument your code to collect standardized metrics, including function call counts, durations, and build information.</Description>
-    <PackageReadmeFile>README.md</PackageReadmeFile>
-    <PackageReleaseNotes>This is the initial Alpha release of Autometrics for .NET</PackageReleaseNotes>
+    <PackageReadmeFile>Autometrics_README.md</PackageReadmeFile>
+    <PackageReleaseNotes>This is the initial Beta release of Autometrics for .NET</PackageReleaseNotes>
     <PackageLicenseFile>LICENSE.txt</PackageLicenseFile>
     <IncludeSymbols>True</IncludeSymbols>
     <SymbolPackageFormat>snupkg</SymbolPackageFormat>
     <PackageIcon>autometrics_logo.png</PackageIcon>
+    <Configurations>Debug;Release;Local Release</Configurations>
   </PropertyGroup>
   
   <ItemGroup>
-    <Content Include="README.md" />
+    <Content Include="Autometrics_README.md" />
   </ItemGroup>
   
   <ItemGroup>
@@ -38,7 +38,7 @@
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
-    <None Update="README.md">
+    <None Update="Autometrics_README.md">
       <Pack>True</Pack>
       <PackagePath>\</PackagePath>
     </None>
